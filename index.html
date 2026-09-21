@@ -3,63 +3,41 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="theme-color" content="#73c9ff">
+<meta name="theme-color" content="#72cfff">
 <title>Где спрятался малыш?</title>
 <style>
-:root{--blue:#55bdf5;--deep:#244b75;--green:#4fc477;--yellow:#ffd45b;--cream:#fffdf7}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:Nunito,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#dff5ff;color:var(--deep)}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#dff5ff;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 body{touch-action:manipulation}
-button{font:inherit;border:0;cursor:pointer}
-#app{width:100%;height:100dvh;position:relative;overflow:hidden}
-.screen{position:absolute;inset:0;display:none}
+#app{height:100dvh;width:100%;position:relative;overflow:hidden;background:#dff5ff}
+.screen{position:absolute;inset:0;display:none;align-items:center;justify-content:center}
 .screen.active{display:flex}
-.bg{position:absolute;inset:0;background:linear-gradient(#8bdcff 0 43%,#bfe98c 43% 100%)}
-.cloud{position:absolute;background:#fff;border-radius:999px;opacity:.8;filter:blur(.2px)}
-.cloud:before,.cloud:after{content:"";position:absolute;background:#fff;border-radius:50%}
-.cloud:before{width:55%;height:130%;left:15%;top:-55%}.cloud:after{width:45%;height:110%;right:10%;top:-35%}
-.c1{width:125px;height:30px;top:12%;left:5%}.c2{width:150px;height:35px;top:19%;right:5%}
-.logo{font-size:clamp(32px,9vw,66px);font-weight:1000;line-height:.95;text-align:center;color:#fff;text-shadow:0 5px 0 #3b88c4,0 8px 18px #2470a955;max-width:800px;margin:auto}
-.logo small{display:block;font-size:.34em;line-height:1.25;margin-top:18px;text-shadow:none;color:#285a80;background:#fff;border-radius:999px;padding:9px 18px;width:max-content;max-width:90%;margin-left:auto;margin-right:auto}
-.home-content{position:relative;z-index:2;width:min(920px,94%);margin:auto;display:flex;flex-direction:column;align-items:center;gap:18px;padding-top:5vh}
-.play{background:linear-gradient(#6cda8b,#3db967);color:#fff;font-size:clamp(21px,5vw,30px);font-weight:1000;padding:15px 42px;border-radius:22px;box-shadow:0 6px 0 #28954e,0 12px 25px #277a4b40}
-.play:active,.level:active,.smallbtn:active{transform:translateY(3px);box-shadow:0 3px 0 #278e4b}
-.character{font-size:100px;filter:drop-shadow(0 8px 5px #0002);animation:bob 2s ease-in-out infinite}
-@keyframes bob{50%{transform:translateY(-8px)}}
-
-#map{background:#8fd8ff}
-.map-bg{position:absolute;inset:0;background:linear-gradient(#86d8ff 0 35%,#a9df77 35% 100%)}
-.map-title{position:absolute;top:max(14px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);background:#fff;border:4px solid #fff;border-radius:22px;padding:10px 20px;font-size:clamp(20px,5vw,34px);font-weight:1000;box-shadow:0 5px 18px #276b9940;z-index:5;white-space:nowrap}
-.path{position:absolute;width:8px;background:#e5c47c;border-radius:99px;transform-origin:top center;box-shadow:0 0 0 3px #fff5}
-.level{position:absolute;width:120px;height:120px;border-radius:50%;background:#fff;border:7px solid #fff;box-shadow:0 7px 0 #d1d7df,0 12px 24px #255b7440;display:flex;align-items:center;justify-content:center;flex-direction:column;font-weight:1000;color:#315b79;font-size:15px}
-.level .ico{font-size:54px;line-height:1}
-.level.locked{filter:grayscale(.6);opacity:.7}
-.l1{left:8%;top:22%}.l2{left:33%;top:34%}.l3{right:9%;top:47%}.l4{left:31%;top:65%}.l5{left:9%;top:77%}
-.stickers{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);background:#fff;border-radius:22px;padding:10px 18px;font-weight:900;box-shadow:0 6px 18px #0002;z-index:5}
-#game{background:#d8f2ff}
-.game-ui{position:absolute;top:max(8px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);width:min(680px,94%);z-index:20;display:flex;align-items:center;gap:8px}
-.pill{background:#fff;border-radius:22px;padding:9px 15px;box-shadow:0 5px 18px #245c7725;font-weight:1000}
-.taskpill{flex:1;text-align:center;font-size:clamp(16px,4vw,23px)}
-.iconbtn{width:48px;height:48px;border-radius:16px;background:#fff;font-size:22px;box-shadow:0 5px 18px #245c7725}
-.scene{position:absolute;inset:0;overflow:hidden}
-.scene svg{width:100%;height:100%;display:block}
-.target{cursor:pointer}
-.target.found{animation:found .45s ease forwards}
-@keyframes found{45%{transform:scale(1.25)}100%{transform:scale(.65);opacity:.35}}
-.hintbtn{position:relative}.hintbtn:active{background:#fff3b8}#hintDot{position:absolute;right:5px;top:5px;width:9px;height:9px;border-radius:50%;background:#ff635c;box-shadow:0 0 0 3px #fff}.map-decor{position:absolute;z-index:1;pointer-events:none}.map-card{position:absolute;z-index:4;background:#ffffffd9;border-radius:18px;padding:7px 11px;font-size:13px;font-weight:1000;color:#315b79;box-shadow:0 5px 15px #255b7430}
-.win{position:absolute;inset:0;background:#214a76cc;z-index:50;display:none;align-items:center;justify-content:center;padding:20px}
-.win.show{display:flex}
-.win-card{background:#fff;border-radius:30px;padding:28px 22px;text-align:center;width:min(400px,92%);box-shadow:0 20px 60px #0004}
-.win-card .big{font-size:70px}.win-card h2{font-size:30px;margin:8px 0;color:#244b75}.win-card p{color:#63809a;font-weight:700}
-.stars{font-size:42px;letter-spacing:3px}
-.next{background:#52c977;color:#fff;border-radius:17px;padding:13px 25px;font-size:19px;font-weight:1000;box-shadow:0 5px 0 #2d9b51}
-.back{background:#eef6fb;color:#315b79;border-radius:15px;padding:10px 15px;font-weight:900;margin-top:9px}
-.toast{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:#fff;border-radius:20px;padding:14px 20px;font-weight:1000;box-shadow:0 8px 30px #0003;z-index:40;display:none}
-.toast.show{display:block;animation:toast .9s ease forwards}
-@keyframes toast{0%{opacity:0;transform:translate(-50%,-35%) scale(.8)}20%,70%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-65%) scale(1)}}
-@media(max-width:520px){
- .level{width:94px;height:94px}.level .ico{font-size:42px}.l1{left:5%}.l2{left:36%}.l3{right:5%}.l4{left:7%}.l5{right:7%}
- .character{font-size:80px}.home-content{padding-top:11vh}
+.art{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center;background:#bfeeff}
+.hot{position:absolute;border:0;background:transparent;cursor:pointer;border-radius:30px}
+.hot:active{background:#fff3;outline:3px solid #fff8}
+.home-play{left:31%;top:79%;width:38%;height:10%}
+.home-stickers{left:26%;top:88%;width:48%;height:8%}
+.map-level{width:45%;height:10%;left:28%}
+.map1{top:20%}.map2{top:34%}.map3{top:48%}.map4{top:62%}
+.map-locked{top:76%}
+.top-controls{position:absolute;z-index:10;top:max(10px,env(safe-area-inset-top));left:0;right:0;display:flex;justify-content:space-between;padding:8px 12px;pointer-events:none}
+.top-controls button{pointer-events:auto;width:48px;height:48px;border:0;border-radius:16px;background:#fff;box-shadow:0 5px 18px #214b6528;font-size:23px}
+.hint-btn{position:relative}.hint-dot{position:absolute;right:5px;top:5px;width:9px;height:9px;border-radius:50%;background:#ff5f5f;box-shadow:0 0 0 3px #fff}
+.game-art{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#bfeeff}
+.game-art img{width:100%;height:100%;object-fit:contain}
+.hotspot{position:absolute;border:0;background:transparent;border-radius:50%;cursor:pointer}
+.hotspot.found{animation:found .35s ease forwards;pointer-events:none}
+@keyframes found{50%{transform:scale(1.3);box-shadow:0 0 0 8px #ffd34d99}100%{opacity:.25}}
+.progress{position:absolute;z-index:9;top:max(13px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);background:#fff;border-radius:18px;padding:9px 16px;font-weight:1000;color:#234b73;box-shadow:0 5px 18px #214b6528}
+.hint-pulse{position:absolute;z-index:12;width:78px;height:78px;border:6px solid #ffd34d;border-radius:50%;pointer-events:none;box-shadow:0 0 0 7px #fff8,0 0 28px #ffb52e}
+.win-button{position:absolute;border:0;background:transparent;cursor:pointer}
+.win-next{left:24%;top:78%;width:52%;height:8%}.win-map{left:28%;top:87%;width:44%;height:7%}
+.toast{position:absolute;z-index:30;left:50%;top:50%;transform:translate(-50%,-50%);background:#fff;border-radius:20px;padding:13px 20px;font-weight:1000;color:#244b75;box-shadow:0 10px 35px #0003;display:none}
+.toast.show{display:block;animation:t .95s ease forwards}
+@keyframes t{0%,70%{opacity:1}100%{opacity:0;transform:translate(-50%,-65%)}}
+@media(min-width:700px){
+ .screen{background:#cfefff}
+ .art,.game-art img{width:auto;max-width:520px}
 }
 </style>
 </head>
@@ -67,145 +45,83 @@ button{font:inherit;border:0;cursor:pointer}
 <div id="app">
 
 <section id="home" class="screen active">
- <div class="bg"><div class="cloud c1"></div><div class="cloud c2"></div></div>
- <div class="home-content">
-  <div class="character">🦝</div>
-  <div class="logo">Где спрятался<br>малыш?<small>Ищем · играем · развиваем внимание</small></div>
-  <button class="play" onclick="showMap()">Играть ▶</button>
- </div>
+  <img class="art" src="assets/home_bg.png" alt="Стартовый экран">
+  <button class="hot home-play" aria-label="Играть" onclick="showMap()"></button>
+  <button class="hot home-stickers" aria-label="Мои наклейки" onclick="toast('Наклейки будут открываться по мере прохождения ⭐')"></button>
 </section>
 
 <section id="map" class="screen">
- <div class="map-bg"></div><div class="map-title">🗺️ Путешествие</div>
- <div class="map-decor" style="left:4%;top:22%;font-size:70px">☁️</div><div class="map-decor" style="right:5%;top:18%;font-size:58px">☀️</div>
- <svg class="map-decor" viewBox="0 0 800 1000" preserveAspectRatio="none" style="inset:0;width:100%;height:100%">
-  <path d="M130 280 C250 300 310 380 400 455 C500 535 590 600 675 700 C610 790 490 825 330 780 C245 755 185 805 135 860" fill="none" stroke="#fff" stroke-width="28" stroke-linecap="round"/>
-  <path d="M130 280 C250 300 310 380 400 455 C500 535 590 600 675 700 C610 790 490 825 330 780 C245 755 185 805 135 860" fill="none" stroke="#e3bd70" stroke-width="16" stroke-linecap="round" stroke-dasharray="18 14"/>
- </svg>
- <button class="level l1" onclick="startLevel('park')"><span class="ico">🌳</span><b>1</b><small>Парк</small></button>
- <button class="level l2" onclick="startLevel('farm')"><span class="ico">🚜</span><b>2</b><small>Ферма</small></button>
- <button class="level l3" onclick="startLevel('sea')"><span class="ico">🏖️</span><b>3</b><small>Море</small></button>
- <button class="level l4" onclick="startLevel('home')"><span class="ico">🏠</span><b>4</b><small>Дом</small></button>
- <button class="level l5 locked" onclick="locked()"><span class="ico">🚀</span><b>5</b><small>Скоро</small></button>
- <div class="map-card" style="left:7%;top:39%">Старт</div><div class="map-card" style="right:7%;bottom:27%">Финиш ✨</div>
- <div class="stickers">⭐ Собрано наклеек: <span id="stickerCount">0</span> / 5</div>
+  <img class="art" src="assets/map_bg.png" alt="Карта уровней">
+  <button class="hot map-level map1" onclick="startPark()"></button>
+  <button class="hot map-level map2" onclick="locked()"></button>
+  <button class="hot map-level map3" onclick="locked()"></button>
+  <button class="hot map-level map4" onclick="locked()"></button>
+  <button class="hot map-level map-locked" onclick="locked()"></button>
+  <div class="top-controls"><button onclick="showHome()">‹</button></div>
 </section>
 
 <section id="game" class="screen">
- <div class="scene" id="scene"></div>
- <div class="game-ui">
-  <button class="iconbtn" onclick="showMap()">‹</button>
-  <div class="pill taskpill" id="task">Найди всех утят 🐥</div>
-  <div class="pill" id="count">0 / 5</div>
-  <button class="iconbtn hintbtn" onclick="hint()" aria-label="Подсказка">💡<span id="hintDot"></span></button>
- </div>
- <div class="toast" id="toast"></div>
- <div class="win" id="win">
-  <div class="win-card">
-   <div class="big" id="winEmoji">🎉</div>
-   <div class="stars">⭐ ⭐ ⭐</div>
-   <h2>Ты всё нашёл!</h2>
-   <p id="winText">Отличная работа!</p>
-   <button class="next" onclick="nextLevel()">Следующий уровень →</button><br>
-   <button class="back" onclick="showMap()">На карту</button>
+  <div class="game-art"><img src="assets/park_bg.png" alt="Парк"></div>
+  <div class="progress" id="progress">🐥 0 из 5</div>
+  <div class="top-controls">
+    <button onclick="showMap()">‹</button>
+    <button class="hint-btn" onclick="hint()">💡<span class="hint-dot"></span></button>
   </div>
- </div>
+
+  <!-- Five real duck hotspots on the illustration. They are transparent but clickable. -->
+  <button class="hotspot" style="left:70%;top:43%;width:11%;height:8%" data-duck="1"></button>
+  <button class="hotspot" style="left:72%;top:91%;width:9%;height:6%" data-duck="2"></button>
+  <button class="hotspot" style="left:53%;top:91%;width:9%;height:6%" data-duck="3"></button>
+  <button class="hotspot" style="left:40%;top:86%;width:10%;height:7%" data-duck="4"></button>
+  <button class="hotspot" style="left:77%;top:94%;width:9%;height:6%" data-duck="5"></button>
+  <div id="toast" class="toast"></div>
 </section>
 
-</div>
+<section id="win" class="screen">
+  <img class="art" src="assets/win_bg.png" alt="Победа">
+  <button class="win-button win-next" onclick="startPark()"></button>
+  <button class="win-button win-map" onclick="showMap()"></button>
+</section>
+
 <script>
-const NS="http://www.w3.org/2000/svg";
-let levelKey="park", objects=[], found=0, hintUsed=false, completed=new Set();
+const screens=["home","map","game","win"];
+let found=0, hintUsed=false;
 
-const levels={
- park:{title:"Помоги Мише найти всех утят 🐥", target:"duck", label:"утят", total:5},
- farm:{title:"Найди все машинки 🚗", target:"car", label:"машинки", total:5},
- sea:{title:"Найди всех морских звёзд ⭐", target:"star", label:"морских звёзд", total:5},
- home:{title:"Найди 5 красных предметов 🔴", target:"red", label:"красных предметов", total:5}
-};
-
-function screen(id){document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.add("active")}
-function showMap(){document.getElementById("win").classList.remove("show");screen("map")}
-function locked(){toast("Эта локация откроется скоро 🔒")}
-function toast(t){const x=document.getElementById("toast");x.textContent=t;x.classList.add("show");setTimeout(()=>x.classList.remove("show"),950)}
-function svg(tag,a={},p){const e=document.createElementNS(NS,tag);Object.entries(a).forEach(([k,v])=>e.setAttribute(k,v));if(p)p.appendChild(e);return e}
-function txt(p,x,y,t,size=30){const e=svg("text",{x,y,"font-size":size,"text-anchor":"middle","font-weight":900,"font-family":"system-ui"},p);e.textContent=t;return e}
-function addTarget(g,type,x,y){g.classList.add("target");g.dataset.type=type;objects.push({g,type,x,y,found:false});g.addEventListener("pointerdown",e=>pick(objects.find(o=>o.g===g),e))}
-function pick(o,e){
- if(!o||o.found)return;
- if(o.type!==levels[levelKey].target){toast("Не это! Продолжай искать 👀");return}
- o.found=true;o.g.classList.add("found");found++;update();
- if(found===levels[levelKey].total)setTimeout(win,450);
+function show(id){
+  screens.forEach(s=>document.getElementById(s).classList.remove("active"));
+  document.getElementById(id).classList.add("active");
 }
-function baseScene(s){
- svg("rect",{x:0,y:0,width:800,height:1000,fill:"#9bdcff"},s);svg("circle",{cx:690,cy:100,r:58,fill:"#ffd75b"},s);
- [[90,110],[190,80],[300,130],[540,155]].forEach(([x,y])=>{svg("circle",{cx:x,cy:y,r:35,fill:"#fff"},s);svg("circle",{cx:x+35,cy:y+8,r:27,fill:"#fff"},s)});
+function showHome(){show("home")}
+function showMap(){show("map")}
+function startPark(){
+  found=0;hintUsed=false;
+  document.querySelectorAll(".hotspot").forEach(x=>x.classList.remove("found"));
+  updateProgress();show("game");
 }
-function fence(s,y=770){for(let x=0;x<=800;x+=55)svg("rect",{x,y:y-30,width:14,height:90,rx:4,fill:"#9b6a43"},s);svg("rect",{x:0,y:y-10,width:800,height:13,rx:6,fill:"#a87548"},s);svg("rect",{x:0,y:y+35,width:800,height:13,rx:6,fill:"#a87548"},s)}
-function flowers(s,items){items.forEach(([x,y,c])=>{svg("line",{x1:x,y1:y,x2:x,y2:y+28,stroke:"#4b9c4d","stroke-width":5},s);svg("circle",{cx:x,cy:y,r:8,fill:c},s);svg("circle",{cx:x-7,cy:y+4,r:5,fill:c},s);svg("circle",{cx:x+7,cy:y+4,r:5,fill:c},s)})}
-function sign(s,x,y,text){const g=svg("g",{transform:`translate(${x} ${y})`},s);svg("rect",{x:-58,y:-20,width:116,height:40,rx:8,fill:"#f4d38a",stroke:"#8c633e","stroke-width":3},g);txt(g,0,7,text,16)}
-function parkScene(s){
- baseScene(s);svg("path",{d:"M0 430 Q180 300 360 430 T800 400 V1000 H0Z",fill:"#72c96d"},s);svg("path",{d:"M0 570 Q180 470 360 570 T800 520 V1000 H0Z",fill:"#a8df7a"},s);
- svg("ellipse",{cx:620,cy:870,rx:210,ry:90,fill:"#57c9e5"},s);
- [[80,500,78],[715,475,82],[555,405,64],[330,430,54]].forEach(([x,y,r])=>{svg("rect",{x:x-15,y:y+35,width:30,height:160,fill:"#80583d",rx:8},s);svg("circle",{cx:x,cy:y,r,fill:"#4db864"},s);svg("circle",{cx:x-48,cy:y+18,r:r*.62,fill:"#65c977"},s);svg("circle",{cx:x+42,cy:y+15,r:r*.55,fill:"#58bd69"},s)});
- svg("rect",{x:460,y:520,width:16,height:150,fill:"#7a593f",rx:8},s);svg("rect",{x:585,y:520,width:16,height:150,fill:"#7a593f",rx:8},s);svg("path",{d:"M465 535 Q530 580 595 535",fill:"none",stroke:"#7a593f","stroke-width":12},s);svg("rect",{x:505,y:600,width:120,height:15,fill:"#d66b55",rx:7},s);svg("path",{d:"M625 615 L705 760 L590 760Z",fill:"#f07159"},s);
- svg("rect",{x:110,y:640,width:135,height:14,rx:5,fill:"#9a6843"},s);svg("rect",{x:120,y:670,width:10,height:60,fill:"#815539"},s);svg("rect",{x:225,y:670,width:10,height:60,fill:"#815539"},s);
- fence(s,790);flowers(s,[[40,620,"#ff6c8c"],[300,680,"#ffd34d"],[360,520,"#9b82ff"],[690,610,"#ff6c8c"],[745,740,"#ffd34d"],[400,900,"#fff"]]);sign(s,690,300,"ПАРК");
- [[150,560],[335,610],[650,650],[285,875],[610,835]].forEach(([x,y])=>duck(s,x,y));
- txt(s,110,760,"⚽",44);txt(s,400,710,"🧸",42);txt(s,735,770,"🎈",44);txt(s,405,470,"🪁",45);txt(s,730,555,"🐱",46);txt(s,245,520,"🐶",46);
+function locked(){toast("Эта локация скоро откроется 🔒")}
+function updateProgress(){document.getElementById("progress").textContent=`🐥 ${found} из 5`}
+function toast(text){
+  const t=document.getElementById("toast");t.textContent=text;t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"),950);
 }
-function duck(s,x,y){
- const g=svg("g",{transform:`translate(${x} ${y})`},s);svg("ellipse",{cx:0,cy:18,rx:25,ry:18,fill:"#ffd84d",stroke:"#a97622","stroke-width":3},g);svg("circle",{cx:5,cy:-3,r:17,fill:"#ffd84d",stroke:"#a97622","stroke-width":3},g);svg("circle",{cx:11,cy:-7,r:3,fill:"#222"},g);svg("path",{d:"M20 -2 l18 7 l-18 6z",fill:"#f08c32"},g);addTarget(g,"duck",x,y)}
-function farmScene(s){
- baseScene(s);svg("rect",{x:0,y:570,width:800,height:430,fill:"#b9df76"},s);svg("path",{d:"M0 620 Q180 500 350 620 T800 590 V720 H0Z",fill:"#82c96b"},s);
- // barn
- svg("path",{d:"M80 560 L220 450 L360 560Z",fill:"#e85c50"},s);svg("rect",{x:100,y:560,width:240,height:170,fill:"#fff0d5",stroke:"#9d5b43","stroke-width":5},s);txt(s,220,675,"🚪",72);
- // cars
- [[140,820,"#ef6257"],[400,790,"#4f9bea"],[650,840,"#ffd14d"],[560,650,"#64c77a"],[280,900,"#f08b3c"]].forEach(([x,y,c])=>car(s,x,y,c));
- txt(s,470,500,"🐮",55);txt(s,730,570,"🐷",50);txt(s,70,710,"🐔",45);txt(s,440,920,"🌻",48);
-fence(s,760);flowers(s,[[380,650,"#ff6b8a"],[460,610,"#ffd34d"],[720,690,"#fff"],[90,900,"#ff7d9b"]]);sign(s,610,420,"ФЕРМА");
-}
-function car(s,x,y,c){
- const g=svg("g",{transform:`translate(${x} ${y})`},s);svg("rect",{x:-55,y:-25,width:110,height:48,rx:12,fill:c,stroke:"#344b5b","stroke-width":4},g);svg("path",{d:"M-35 -25 L-15 -53 L25 -53 L43 -25Z",fill:c,stroke:"#344b5b","stroke-width":4},g);svg("circle",{cx:-32,cy:24,r:13,fill:"#333"},g);svg("circle",{cx:32,cy:24,r:13,fill:"#333"},g);svg("rect",{x:-8,y:-47,width:28,height:17,fill:"#b9e8f5",rx:3},g);addTarget(g,"car",x,y)}
-function seaScene(s){
- baseScene(s);svg("rect",{x:0,y:430,width:800,height:570,fill:"#58c8e8"},s);svg("path",{d:"M0 420 Q180 380 360 430 T800 420 V510 H0Z",fill:"#ffe5a8"},s);
- txt(s,95,500,"⛱️",70);txt(s,700,540,"🛟",65);txt(s,400,560,"🐢",55);txt(s,620,700,"🐠",55);txt(s,180,720,"🐟",55);txt(s,500,850,"🐙",60);
-svg("path",{d:"M0 575 Q130 530 260 575 T520 575 T800 575",fill:"none",stroke:"#fff","stroke-width":9,opacity:.65},s);svg("path",{d:"M0 650 Q130 605 260 650 T520 650 T800 650",fill:"none",stroke:"#fff","stroke-width":7,opacity:.5},s);sign(s,120,310,"МОРЕ");
- [[130,620],[300,760],[470,640],[670,820],[560,930]].forEach(([x,y])=>star(s,x,y));
-}
-function star(s,x,y){
- const g=svg("g",{transform:`translate(${x} ${y})`},s);svg("path",{d:"M0-28 L8-9 L29-9 L13 3 L19 25 L0 13 L-19 25 L-13 3 L-29-9 L-8-9Z",fill:"#ffbd4a",stroke:"#9a6b2c","stroke-width":4},g);addTarget(g,"star",x,y)}
-function homeScene(s){
- baseScene(s);svg("rect",{x:0,y:430,width:800,height:570,fill:"#f8dfbd"},s);svg("rect",{x:120,y:220,width:560,height:600,rx:20,fill:"#fff6e8",stroke:"#d18b61","stroke-width":8},s);svg("path",{d:"M90 230 L400 70 L710 230Z",fill:"#df7059"},s);svg("rect",{x:350,y:550,width:100,height:270,fill:"#8d624d"},s);
- txt(s,205,380,"🧸",65);txt(s,590,360,"📚",60);txt(s,190,600,"🍎",55);txt(s,590,600,"🔴",60);txt(s,400,410,"🎈",55);
-svg("rect",{x:150,y:740,width:500,height:25,rx:12,fill:"#e7b98c"},s);flowers(s,[[120,850,"#ff6b8c"],[680,820,"#ffd34d"],[90,460,"#fff"],[710,460,"#ff7d9b"]]);sign(s,650,270,"ДОМ");
- [[280,720,"#ef5350"],[500,730,"#e95d50"],[340,520,"#e84e4e"],[520,480,"#e95555"],[420,880,"#e84d4d"]].forEach(([x,y,c])=>redTarget(s,x,y,c));
-}
-function redTarget(s,x,y,c){const g=svg("g",{transform:`translate(${x} ${y})`},s);svg("circle",{cx:0,cy:0,r:24,fill:c,stroke:"#a22","stroke-width":4},g);addTarget(g,"red",x,y)}
-function draw(){
- const s=document.createElementNS(NS,"svg");s.setAttribute("viewBox","0 0 800 1000");s.setAttribute("preserveAspectRatio","xMidYMid slice");
- objects=[];({park:parkScene,farm:farmScene,sea:seaScene,home:homeScene}[levelKey])(s);
- document.getElementById("scene").replaceChildren(s);
-}
-function startLevel(k){levelKey=k;found=0;hintUsed=false;document.getElementById("win").classList.remove("show");draw();update();screen("game")}
-function update(){const l=levels[levelKey];document.getElementById("task").textContent=l.title;document.getElementById("count").textContent=`${found} / ${l.total}`}
+document.querySelectorAll(".hotspot").forEach(h=>{
+  h.addEventListener("pointerdown",()=>{
+    if(h.classList.contains("found"))return;
+    h.classList.add("found");found++;updateProgress();
+    if(found===5)setTimeout(()=>show("win"),450);
+  });
+});
 function hint(){
- const remaining=objects.find(o=>o.type===levels[levelKey].target&&!o.found);
- if(!remaining){toast("Всё уже найдено!");return}
- hintUsed=true;
- const r=remaining.g.getBoundingClientRect(),sr=document.getElementById("scene").getBoundingClientRect();
- const pulse=document.createElement("div");
- pulse.style.cssText=`position:absolute;z-index:18;left:${r.left-sr.left+r.width/2}px;top:${r.top-sr.top+r.height/2}px;width:74px;height:74px;border:7px solid #ffd34d;border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;box-shadow:0 0 0 8px #fff8,0 0 25px #ffbd3b`;
- document.getElementById("scene").appendChild(pulse);
- pulse.animate([{transform:"translate(-50%,-50%) scale(.65)",opacity:1},{transform:"translate(-50%,-50%) scale(1.25)",opacity:.15}],{duration:900,iterations:2});
- setTimeout(()=>pulse.remove(),1900);toast("Вот он! 👀");
+  const remaining=[...document.querySelectorAll(".hotspot:not(.found)")][0];
+  if(!remaining){toast("Ты уже всё нашёл!");return}
+  hintUsed=true;
+  const r=remaining.getBoundingClientRect(), a=document.getElementById("game").getBoundingClientRect();
+  const p=document.createElement("div");p.className="hint-pulse";
+  p.style.left=(r.left-a.left+r.width/2-39)+"px";p.style.top=(r.top-a.top+r.height/2-39)+"px";
+  document.getElementById("game").appendChild(p);
+  p.animate([{transform:"scale(.65)",opacity:1},{transform:"scale(1.3)",opacity:.15}],{duration:900,iterations:2});
+  setTimeout(()=>p.remove(),1900);
 }
-function win(){
- document.getElementById("winEmoji").textContent=levelKey==="sea"?"🌟":levelKey==="farm"?"🚜":"🎉";
- document.getElementById("winText").textContent=hintUsed?"Нашёл! В следующий раз попробуй без подсказки.":"Отличная работа! Ты очень внимательный.";
- document.getElementById("win").classList.add("show");completed.add(levelKey);document.getElementById("stickerCount").textContent=completed.size;
-}
-function nextLevel(){const order=["park","farm","sea","home"];let i=order.indexOf(levelKey);if(i<order.length-1)startLevel(order[i+1]);else showMap()}
 </script>
 </body>
 </html>
